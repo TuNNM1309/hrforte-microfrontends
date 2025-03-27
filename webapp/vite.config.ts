@@ -4,14 +4,22 @@ import vitePluginSingleSpa from 'vite-plugin-single-spa';
 import externalize from 'vite-plugin-externalize-dependencies';
 
 const port = 8081;
+const externalDependencies = [
+  'single-spa',
+  '@hr-forte/legacy',
+  /^@hr-forte\//,
+  'react',
+  'react-dom',
+];
 
 // https://vite.dev/config/
 export default defineConfig({
   base: `http://localhost:${port}`,
   optimizeDeps: {
-    // HACK: Prevent cache busting and mess up the import map
+    // HACK: Prevent cache busting and mess up the import map, not sure if it works
     exclude: ['@hr-forte/legacy'],
   },
+
   plugins: [
     react(),
     vitePluginSingleSpa({
@@ -21,29 +29,22 @@ export default defineConfig({
       spaEntryPoints: 'src/hr-forte-webapp.tsx',
     }),
     externalize({
-      externals: ['single-spa', /^@hr-forte\//],
+      externals: externalDependencies,
     }),
   ],
-  // server: {
-  // cors: true,
-  // },
-  // build: {
-  // target: 'esnext',
-  // cssCodeSplit: false,
-  // rollupOptions: {
-  // preserveEntrySignatures: 'strict',
-  // input: 'src/hr-forte-webapp.tsx',
-  // output: {
-  //   format: 'systemjs',
-  //   entryFileNames: 'hr-forte-webapp.js',
-  // },
-  // external: [
-  //   'single-spa',
-  //   /^@hr-forte\//,
-  //   'react',
-  //   'react-dom',
-  //   'react-dom/client',
-  // ],
-  // },
-  // },
+  server: {
+    cors: true,
+  },
+  build: {
+    cssCodeSplit: false,
+    rollupOptions: {
+      preserveEntrySignatures: 'strict',
+      input: 'src/hr-forte-webapp.tsx',
+      output: {
+        // format: 'systemjs',
+        entryFileNames: 'hr-forte-webapp.js',
+      },
+      external: externalDependencies,
+    },
+  },
 });
