@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import ReactDOMClient from 'react-dom/client';
 import React from 'react';
 import singleSpaReact from 'single-spa-react';
 import { Root } from './root';
@@ -6,7 +6,7 @@ import { Root } from './root';
 // This is the main entry point for the single-spa application
 const lifecycles = singleSpaReact({
   React,
-  ReactDOM,
+  ReactDOMClient,
   rootComponent: Root,
   errorBoundary(err, info, props) {
     // Customize the root error boundary for your microfrontend here.

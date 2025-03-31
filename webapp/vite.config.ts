@@ -4,13 +4,7 @@ import vitePluginSingleSpa from 'vite-plugin-single-spa';
 import externalize from 'vite-plugin-externalize-dependencies';
 
 const port = 8081;
-const externalDependencies = [
-  'single-spa',
-  '@hr-forte/legacy',
-  /^@hr-forte\//,
-  'react',
-  'react-dom',
-];
+const externalDependencies = ['single-spa', '@hr-forte/legacy', /^@hr-forte\//];
 
 // https://vite.dev/config/
 export default defineConfig({
